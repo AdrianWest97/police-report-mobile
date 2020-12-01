@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:prms/modules/signup_page.dart';
+import 'package:prms/pages/signup_page.dart';
 
 class LoginPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -164,10 +164,7 @@ class LoginPage extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return SignupPage();
-                          }));
+                          Navigator.pushNamed(context, '/register');
                         },
                         child: Text(
                           "Sign up",
