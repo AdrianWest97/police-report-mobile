@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SignupPage extends StatelessWidget {
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,146 +39,172 @@ class SignupPage extends StatelessWidget {
                 SizedBox(
                   height: 50,
                 ),
-                Column(
-                  children: <Widget>[
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: "Full Name",
-                        labelStyle: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey.shade400,
-                            fontWeight: FontWeight.w600),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey.shade300),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: <Widget>[
+                      TextFormField(
+                        validator: (value) {
+                          return validate(value);
+                        },
+                        keyboardType: TextInputType.name,
+                        decoration: InputDecoration(
+                          labelText: "Full Name",
+                          labelStyle: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey.shade400,
+                              fontWeight: FontWeight.w600),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(color: Colors.grey.shade300),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(color: Colors.grey.shade300),
+                          ),
+                          floatingLabelBehavior: FloatingLabelBehavior.auto,
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey.shade300),
-                        ),
-                        floatingLabelBehavior: FloatingLabelBehavior.auto,
                       ),
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: "Email ID",
-                        labelStyle: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey.shade400,
-                            fontWeight: FontWeight.w600),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey.shade300),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey.shade300),
-                        ),
-                        floatingLabelBehavior: FloatingLabelBehavior.auto,
+                      SizedBox(
+                        height: 16,
                       ),
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: "TRN",
-                        labelStyle: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey.shade400,
-                            fontWeight: FontWeight.w600),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey.shade300),
+                      TextFormField(
+                        validator: (value) {
+                          return validate(value);
+                        },
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: InputDecoration(
+                          labelText: "Email ID",
+                          labelStyle: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey.shade400,
+                              fontWeight: FontWeight.w600),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(color: Colors.grey.shade300),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(color: Colors.grey.shade300),
+                          ),
+                          floatingLabelBehavior: FloatingLabelBehavior.auto,
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey.shade300),
-                        ),
-                        floatingLabelBehavior: FloatingLabelBehavior.auto,
                       ),
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: "Phone #",
-                        labelStyle: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey.shade400,
-                            fontWeight: FontWeight.w600),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey.shade300),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey.shade300),
-                        ),
-                        floatingLabelBehavior: FloatingLabelBehavior.auto,
+                      SizedBox(
+                        height: 16,
                       ),
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    TextField(
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        labelText: "Password",
-                        labelStyle: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey.shade400,
-                            fontWeight: FontWeight.w600),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey.shade300),
+                      TextFormField(
+                        validator: (value) {
+                          return validate(value);
+                        },
+                        keyboardType: TextInputType.numberWithOptions(),
+                        decoration: InputDecoration(
+                          labelText: "TRN",
+                          labelStyle: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey.shade400,
+                              fontWeight: FontWeight.w600),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(color: Colors.grey.shade300),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(color: Colors.grey.shade300),
+                          ),
+                          floatingLabelBehavior: FloatingLabelBehavior.auto,
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey.shade300),
-                        ),
-                        floatingLabelBehavior: FloatingLabelBehavior.auto,
                       ),
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Container(
-                      height: 50,
-                      width: double.infinity,
-                      child: FlatButton(
-                        onPressed: () {},
-                        padding: EdgeInsets.all(0),
-                        child: Ink(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              color: Colors.black87),
-                          child: Container(
-                            alignment: Alignment.center,
-                            constraints: BoxConstraints(
-                                maxWidth: double.infinity, minHeight: 50),
-                            child: Text(
-                              "Create Account",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.center,
+                      SizedBox(
+                        height: 16,
+                      ),
+                      TextFormField(
+                        validator: (value) {
+                          return validate(value);
+                        },
+                        keyboardType: TextInputType.phone,
+                        decoration: InputDecoration(
+                          labelText: "Phone #",
+                          labelStyle: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey.shade400,
+                              fontWeight: FontWeight.w600),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(color: Colors.grey.shade300),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(color: Colors.grey.shade300),
+                          ),
+                          floatingLabelBehavior: FloatingLabelBehavior.auto,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      TextFormField(
+                        validator: (value) {
+                          return validate(value);
+                        },
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          labelText: "Password",
+                          labelStyle: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey.shade400,
+                              fontWeight: FontWeight.w600),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(color: Colors.grey.shade300),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(color: Colors.grey.shade300),
+                          ),
+                          floatingLabelBehavior: FloatingLabelBehavior.auto,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Container(
+                        height: 50,
+                        width: double.infinity,
+                        child: FlatButton(
+                          onPressed: () {
+                            if (_formKey.currentState.validate()) {
+                              print("Register success");
+                            }
+                          },
+                          padding: EdgeInsets.all(0),
+                          child: Ink(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                color: Colors.black87),
+                            child: Container(
+                              alignment: Alignment.center,
+                              constraints: BoxConstraints(
+                                  maxWidth: double.infinity, minHeight: 50),
+                              child: Text(
+                                "Create Account",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.center,
+                              ),
                             ),
                           ),
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6),
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                  ],
+                      SizedBox(
+                        height: 30,
+                      ),
+                    ],
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 10),
@@ -207,5 +234,12 @@ class SignupPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  validate(value) {
+    if (value == '') {
+      return 'This field is required';
+    }
+    return null;
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:prms/modules/signup_page.dart';
 
 class LoginPage extends StatelessWidget {
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,99 +40,118 @@ class LoginPage extends StatelessWidget {
                 SizedBox(
                   height: 50,
                 ),
-                Column(
-                  children: <Widget>[
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: "Email ID",
-                        labelStyle: TextStyle(
-                            fontSize: 14, color: Colors.grey.shade400),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(
-                            color: Colors.grey.shade300,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(
-                              color: Colors.grey.shade500,
-                            )),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    TextField(
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        labelText: "Password",
-                        labelStyle: TextStyle(
-                            fontSize: 14, color: Colors.grey.shade300),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(
-                            color: Colors.grey.shade300,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: <Widget>[
+                      TextFormField(
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'This field is required';
+                          }
+                          return null;
+                        },
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: InputDecoration(
+                          labelText: "Email ID",
+                          labelStyle: TextStyle(
+                              fontSize: 14, color: Colors.grey.shade400),
+                          enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                             borderSide: BorderSide(
                               color: Colors.grey.shade300,
-                            )),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 12,
-                    ),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Text(
-                        "Forgot Password ?",
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Container(
-                      height: 50,
-                      width: double.infinity,
-                      child: FlatButton(
-                        onPressed: () {
-                          _login();
-                        },
-                        padding: EdgeInsets.all(0),
-                        child: Ink(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              color: Colors.black87),
-                          child: Container(
-                            alignment: Alignment.center,
-                            constraints: BoxConstraints(
-                                maxWidth: double.infinity, minHeight: 50),
-                            child: Text(
-                              "SIGN IN",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.center,
                             ),
                           ),
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                color: Colors.grey.shade500,
+                              )),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                  ],
+                      SizedBox(
+                        height: 16,
+                      ),
+                      TextFormField(
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return "This field is required";
+                          }
+                          return null;
+                        },
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          labelText: "Password",
+                          labelStyle: TextStyle(
+                              fontSize: 14, color: Colors.grey.shade300),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(
+                              color: Colors.grey.shade300,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                color: Colors.grey.shade300,
+                              )),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: Text(
+                          "Forgot Password ?",
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Container(
+                        height: 50,
+                        width: double.infinity,
+                        child: FlatButton(
+                          onPressed: () {
+                            //return true if form is valid
+                            if (_formKey.currentState.validate()) {
+                              _login();
+                            }
+                          },
+                          padding: EdgeInsets.all(0),
+                          child: Ink(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                color: Colors.black87),
+                            child: Container(
+                              alignment: Alignment.center,
+                              constraints: BoxConstraints(
+                                  maxWidth: double.infinity, minHeight: 50),
+                              child: Text(
+                                "SIGN IN",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                    ],
+                  ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(bottom: 10),
