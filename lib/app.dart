@@ -3,6 +3,7 @@ import 'package:custom_navigator/custom_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:prms/pages/Home.dart';
+import 'package:prms/pages/new_report.dart';
 import 'package:prms/pages/profile_page.dart';
 import 'package:prms/pages/report.dart';
 
@@ -17,7 +18,7 @@ class CustomNavigatorHomePage extends StatefulWidget {
 class _CustomNavigatorHomePageState extends State<CustomNavigatorHomePage> {
   final List<Widget> _children = [
     HomePage(),
-    Report(),
+    CreateReport(),
     ProfilePage(),
   ];
   Widget _page = HomePage();
@@ -31,6 +32,7 @@ class _CustomNavigatorHomePageState extends State<CustomNavigatorHomePage> {
         items: _items,
         showSelectedLabels: false,
         showUnselectedLabels: false,
+        selectedItemColor: Colors.black,
         iconSize: 35,
         onTap: (index) {
           navigatorKey.currentState.maybePop();
