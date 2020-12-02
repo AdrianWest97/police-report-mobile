@@ -1,56 +1,35 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:prms/pages/HomeBody.dart';
-import 'package:prms/pages/Profile.dart';
-import 'package:prms/pages/test.dart';
+import 'package:prms/components/HomeMenu.dart';
 
-class Home extends StatefulWidget {
+class HomePage extends StatefulWidget {
+  const HomePage({Key key}) : super(key: key);
+
   @override
-  _HomeState createState() => _HomeState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _HomeState extends State<Home> {
-  int _currentIndex = 0;
-
-  final tabs = [HomeBody(), Test(), Profile()];
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Colors.white,
-      //   title: Text("Home", ),
-      //   centerTitle: true,
-      //   elevation: 0,
-      // ),
-      body: tabs[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        currentIndex: _currentIndex,
-        iconSize: 30,
-        elevation: 0,
-        type: BottomNavigationBarType.fixed,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            label: "",
-            backgroundColor: Colors.blue,
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.add_circle_outline),
-              label: "",
-              backgroundColor: Colors.blue),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle_outlined),
-              label: "",
-              backgroundColor: Colors.blue),
-        ],
+      backgroundColor: Colors.grey[200],
+      appBar: AppBar(
+        title: Text('Home'),
       ),
+      body: Container(
+          child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 30,
+          ),
+          HomeMenu(),
+        ],
+      )),
     );
   }
+
+  // @override
+  // bool get wantKeepAlive => true;
 }

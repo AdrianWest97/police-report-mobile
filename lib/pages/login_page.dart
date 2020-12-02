@@ -118,7 +118,7 @@ class LoginPage extends StatelessWidget {
                           onPressed: () {
                             //return true if form is valid
                             if (_formKey.currentState.validate()) {
-                              _login();
+                              _login(context);
                             }
                           },
                           padding: EdgeInsets.all(0),
@@ -184,7 +184,7 @@ class LoginPage extends StatelessWidget {
   }
 
   //logim
-  _login() {
-    print("Signin success");
+  _login(context) {
+    Navigator.pushNamed(context, '/home');
   }
 }

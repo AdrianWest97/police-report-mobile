@@ -1,28 +1,37 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/avd.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:prms/models/MenuItem.dart';
+import 'package:prms/pages/Home.dart';
+import 'package:prms/pages/report.dart';
+import 'package:prms/pages/trackReport.dart';
+import 'package:prms/route_generator.dart';
+import 'dart:convert';
 
-class Dashboard extends StatefulWidget {
+class HomeMenu extends StatefulWidget {
   @override
-  _DashboardState createState() => _DashboardState();
+  _HomeMenuState createState() => _HomeMenuState();
 }
 
-class _DashboardState extends State<Dashboard> {
+class _HomeMenuState extends State<HomeMenu> {
   List<MenuItem> _menu = new List<MenuItem>();
-  List<int> _list = [];
 
   @override
   void initState() {
-    _menu.add(
-        MenuItem(image: 'assets/svg/report.svg', route: '', title: 'Report'));
     _menu.add(MenuItem(
-        image: 'assets/svg/delivery.svg', route: '', title: 'Track Report'));
+        image: 'assets/svg/report.svg', route: Report(), title: 'Report'));
     _menu.add(MenuItem(
-        image: 'assets/svg/search.svg', route: '', title: 'Missing People'));
+        image: 'assets/svg/delivery.svg',
+        route: TrackReport(),
+        title: 'Track Report'));
     _menu.add(MenuItem(
-        image: 'assets/svg/location.svg', route: '', title: 'Your Area'));
+        image: 'assets/svg/search.svg',
+        route: HomePage(),
+        title: 'Missing People'));
+    _menu.add(MenuItem(
+        image: 'assets/svg/location.svg',
+        route: HomePage(),
+        title: 'Your Area'));
     _menu.toList();
     super.initState();
   }
@@ -31,13 +40,17 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return GridView.count(
       crossAxisCount: 2,
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.all(0),
       childAspectRatio: 1.0,
       mainAxisSpacing: 4.0,
+      shrinkWrap: true,
       children: _menu.map((e) {
         return InkWell(
-          onTap: () => Navigator.pushNamed(context, '/login'),
+          onTap: () => Navigator.push(
+              context, new MaterialPageRoute(builder: (context) => e.route)),
           child: Card(
+            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            elevation: 0,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0)),
             color: Colors.white,
