@@ -1,9 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:prms/pages/signup_page.dart';
+import 'package:prms/api/helper.dart';
+import 'package:prms/models/user.dart';
+import 'package:prms/utils/SharedPrefs.dart';
+import 'package:prms/api/api.dart';
 
 class LoginPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +38,7 @@ class LoginPage extends StatelessWidget {
                       height: 6,
                     ),
                     Text(
-                      "Sign in to continue!",
+                      "Login to continue!",
                       style:
                           TextStyle(fontSize: 20, color: Colors.grey.shade400),
                     ),
@@ -45,6 +52,7 @@ class LoginPage extends StatelessWidget {
                   child: Column(
                     children: <Widget>[
                       TextFormField(
+                        controller: emailController,
                         validator: (value) {
                           if (value.isEmpty) {
                             return 'This field is required';
@@ -73,6 +81,7 @@ class LoginPage extends StatelessWidget {
                         height: 16,
                       ),
                       TextFormField(
+                        controller: passwordController,
                         validator: (value) {
                           if (value.isEmpty) {
                             return "This field is required";
@@ -116,10 +125,11 @@ class LoginPage extends StatelessWidget {
                         width: double.infinity,
                         child: FlatButton(
                           onPressed: () {
+                            _login(context);
+
                             //return true if form is valid
-                            if (_formKey.currentState.validate()) {
-                              _login(context);
-                            }
+                            // if (_formKey.currentState.validate()) {
+                            // }
                           },
                           padding: EdgeInsets.all(0),
                           child: Ink(
@@ -184,7 +194,15 @@ class LoginPage extends StatelessWidget {
   }
 
   //logim
-  _login(context) {
-    Navigator.pushNamed(context, '/home');
+  _login(context) async {
+    var res = await Network().postData(
+        {'email': emailController.text, 'password': passwordController.text},
+        '/login');
+    if (res.statusCode == 200) {
+      sharedPrefs.token = res.body;
+      Navigator.pushNamed(context, '/');
+    } else
+      print(res.statusCode);
+    throw Exception("Something went wrong, could not load data");
   }
 }

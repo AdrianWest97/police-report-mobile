@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:prms/models/MenuItem.dart';
 import 'package:prms/pages/Home.dart';
+import 'package:prms/pages/missing_people.dart';
 import 'package:prms/pages/report.dart';
 import 'package:prms/pages/trackReport.dart';
-import 'package:prms/route_generator.dart';
-import 'dart:convert';
 
 class HomeMenu extends StatefulWidget {
   @override
@@ -26,7 +25,7 @@ class _HomeMenuState extends State<HomeMenu> {
         title: 'Track Report'));
     _menu.add(MenuItem(
         image: 'assets/svg/search.svg',
-        route: HomePage(),
+        route: MissingPeople(),
         title: 'Missing People'));
     _menu.add(MenuItem(
         image: 'assets/svg/location.svg',
@@ -50,7 +49,6 @@ class _HomeMenuState extends State<HomeMenu> {
               context, new MaterialPageRoute(builder: (context) => e.route)),
           child: Card(
             margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-            elevation: 0,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0)),
             color: Colors.white,

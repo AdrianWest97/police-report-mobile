@@ -1,14 +1,15 @@
 import 'package:prms/models/Witness.dart';
 
 class ReportForm {
-  DateTime date;
+  String date;
   String type;
   String parish;
   String city;
   String street;
   String details;
+  String additional;
   bool hasWitness;
-  List<Witness> witnesses;
+  String witnesses;
   bool accepted_terms;
 
   ReportForm(
@@ -18,6 +19,7 @@ class ReportForm {
       this.city,
       this.street,
       this.details,
+      this.additional,
       this.hasWitness,
       this.witnesses,
       this.accepted_terms});
@@ -29,6 +31,7 @@ class ReportForm {
         'city': city,
         'street': street,
         'details': details,
+        'additional': additional,
         'witnesses': witnesses,
         'hasWitness': hasWitness,
         'accepted_terms': accepted_terms
