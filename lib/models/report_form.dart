@@ -11,6 +11,7 @@ class ReportForm {
   bool hasWitness;
   String witnesses;
   bool accepted_terms;
+  bool anonymous;
 
   ReportForm(
       {this.date,
@@ -22,6 +23,7 @@ class ReportForm {
       this.additional,
       this.hasWitness,
       this.witnesses,
+      this.anonymous,
       this.accepted_terms});
 
   Map<String, dynamic> toJson() => {
@@ -34,6 +36,7 @@ class ReportForm {
         'additional': additional,
         'witnesses': witnesses,
         'hasWitness': hasWitness,
-        'accepted_terms': accepted_terms
+        'accepted_terms': accepted_terms,
+        'anonymous': anonymous
       };
 }

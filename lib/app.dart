@@ -8,6 +8,8 @@ import 'package:prms/pages/profile_page.dart';
 import 'package:prms/utils/loading_bloc.dart';
 import 'package:provider/provider.dart';
 
+import 'components/loading.dart';
+
 class CustomNavigatorHomePage extends StatefulWidget {
   CustomNavigatorHomePage({Key key, this.label}) : super(key: key);
   final String label;
@@ -31,13 +33,14 @@ class _CustomNavigatorHomePageState extends State<CustomNavigatorHomePage> {
     final LoadingBloc loader = Provider.of<LoadingBloc>(context);
     return ModalProgressHUD(
       inAsyncCall: loader.hudLoader,
-      opacity: 0.4,
+      opacity: 0.9,
+      color: Color(0xFF072e6f),
+      progressIndicator: Loader(),
       child: Scaffold(
         bottomNavigationBar: BottomNavigationBar(
           items: _items,
           showSelectedLabels: false,
           showUnselectedLabels: false,
-          selectedItemColor: Colors.brown,
           iconSize: 30,
           onTap: (index) {
             navigatorKey.currentState.maybePop();

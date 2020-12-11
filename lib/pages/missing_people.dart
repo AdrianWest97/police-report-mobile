@@ -28,9 +28,9 @@ class _MissingPeopleState extends State<MissingPeople> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width * 0.6;
     return Scaffold(
-        backgroundColor: Colors.grey[100],
         appBar: AppBar(
-          title: Text('Missing People'),
+          title: Text('Missing Persons'),
+          centerTitle: true,
         ),
         body: SafeArea(
             child: FutureBuilder<List<Missing>>(
@@ -44,13 +44,16 @@ class _MissingPeopleState extends State<MissingPeople> {
                   return GestureDetector(
                     onTap: () {},
                     child: Card(
-                      elevation: 0,
+                      elevation: 0.2,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0)),
                       margin: EdgeInsets.all(8.0),
                       child: Row(
                         children: [
                           Container(
-                              width: 50,
-                              height: 50,
+                              padding: EdgeInsets.all(10),
+                              width: 70,
+                              height: 70,
                               child: CircularProfileAvatar(
                                 "${DotEnv().env['BASE_URL']}/storage/${data.image}", //sets image path, it should be a URL string. default value is empty string, if path is empty it will display only initials
                                 radius: 10, // sets radius, default 50.0

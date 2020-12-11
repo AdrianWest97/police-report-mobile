@@ -4,11 +4,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:prms/api/api.dart';
+import 'package:prms/constants/strings.dart';
 import 'package:prms/models/Witness.dart';
 import 'package:prms/models/report_form.dart';
 import 'package:prms/pages/Home.dart';
 import 'package:prms/utils/loading_bloc.dart';
 import 'package:provider/provider.dart';
+
+import '../root.dart';
 
 class CreateReport extends StatefulWidget {
   @override
@@ -33,25 +36,11 @@ class _CreateReportState extends State<CreateReport>
   var _detailsController = TextEditingController();
   var _tempPhone = TextEditingController();
   var _tempName = TextEditingController();
+  bool isAnonymous = false;
   List<Witness> _witnesses = new List<Witness>();
   String parish;
   bool hasWitness = false;
-  List _parishes = [
-    "Hanover",
-    "St. Elizabeth",
-    "St. James",
-    "Trelawny",
-    "Westmoreland",
-    "Clarendon",
-    "Manchester",
-    "St. Ann",
-    "St. Catherine",
-    "St. Mary",
-    "Kingston",
-    "Portland",
-    "St. Andrew",
-    "St. Thomas"
-  ];
+
   GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   LoadingBloc loadingBloc;
   @override
@@ -65,6 +54,18 @@ class _CreateReportState extends State<CreateReport>
     super.build(context);
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
+          actions: [
+            IconButton(
+                icon: Icon(
+                  Icons.close,
+                  color: Colors.white,
+                ),
+                onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomePage()),
+                    ))
+          ],
           title: Text(
             'Quick Report',
           ),
@@ -169,19 +170,38 @@ class _CreateReportState extends State<CreateReport>
   List<Step> _reportSteps() {
     List<Step> _steps = [
       Step(
+          title: Text(
+              'Do you want to make this report anonymous? Your user information wont be shown.'),
+          content: Container(
+            alignment: Alignment.topLeft,
+            child: Row(
+              children: [
+                Switch(
+                    value: isAnonymous,
+                    onChanged: (value) => setState(() {
+                          isAnonymous = value;
+                        })),
+                Text("Anonymous report?"),
+                IconButton(icon: Icon(Icons.help), onPressed: null)
+              ],
+            ),
+          ),
+          state: _checkState(0),
+          isActive: _currentStep >= 0),
+      Step(
           title: Text('Report type & Date'),
           content: _stepOne(),
-          state: _checkState(0),
+          state: _checkState(1),
           isActive: _currentStep >= 0),
       Step(
           title: Text('Location of Inccident'),
           content: _stepTwo(),
-          state: _checkState(1),
+          state: _checkState(2),
           isActive: _currentStep >= 0),
       Step(
           title: Text('Description of inccident'),
           content: _stepThree(),
-          state: _checkState(2),
+          state: _checkState(3),
           isActive: _currentStep >= 0),
     ];
     return _steps;
@@ -193,7 +213,7 @@ class _CreateReportState extends State<CreateReport>
         Container(
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey, width: 1),
+                border: Border.all(color: Colors.grey.shade300, width: 2),
                 borderRadius: BorderRadius.circular(15)),
             child: DropdownButtonFormField(
               hint: Text("Select Parish"),
@@ -210,7 +230,7 @@ class _CreateReportState extends State<CreateReport>
               },
               validator: (value) =>
                   value == null ? 'Please select an item' : null,
-              items: _parishes.map((item) {
+              items: parishes.map((item) {
                 return DropdownMenuItem(
                   value: item,
                   child: Text(item),
@@ -231,9 +251,14 @@ class _CreateReportState extends State<CreateReport>
           controller: _cityController,
           decoration: InputDecoration(
             labelText: "City",
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: Colors.grey.shade300)),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: Colors.grey.shade400)),
           ),
         ),
         SizedBox(
@@ -250,9 +275,14 @@ class _CreateReportState extends State<CreateReport>
           controller: _streetController,
           decoration: InputDecoration(
             labelText: "Street Address",
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: Colors.grey.shade300)),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: Colors.grey.shade400)),
           ),
         )
       ],
@@ -274,9 +304,14 @@ class _CreateReportState extends State<CreateReport>
           decoration: InputDecoration(
             labelText: "Details",
             hintText: "Give brief information of the inccident",
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: Colors.grey.shade300)),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: Colors.grey.shade400)),
           ),
           maxLines: null,
           keyboardType: TextInputType.text,
@@ -319,8 +354,13 @@ class _CreateReportState extends State<CreateReport>
                     decoration: InputDecoration(
                       labelText: 'Witness full name',
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
+                          borderRadius: BorderRadius.circular(20.0)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.grey.shade300)),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.grey.shade400)),
                     ),
                   ),
                   SizedBox(
@@ -332,8 +372,13 @@ class _CreateReportState extends State<CreateReport>
                     decoration: InputDecoration(
                       labelText: 'Phone #',
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
+                          borderRadius: BorderRadius.circular(20.0)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.grey.shade300)),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.grey.shade400)),
                     ),
                   ),
                   SizedBox(
@@ -362,7 +407,7 @@ class _CreateReportState extends State<CreateReport>
         Container(
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey, width: 1),
+                border: Border.all(color: Colors.grey.shade400, width: 1),
                 borderRadius: BorderRadius.circular(15)),
             child: DropdownButtonFormField(
               hint: Text("Select report type"),
@@ -399,9 +444,14 @@ class _CreateReportState extends State<CreateReport>
           },
           decoration: InputDecoration(
             labelText: 'Select Date',
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: Colors.grey.shade300)),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: Colors.grey.shade400)),
           ),
           readOnly: true,
           showCursor: false,
@@ -444,6 +494,7 @@ class _CreateReportState extends State<CreateReport>
         city: _cityController.text,
         parish: parish,
         street: _streetController.text,
+        anonymous: isAnonymous,
         accepted_terms: true,
         witnesses: jsonEncode(_witnesses),
         details: _detailsController.text,

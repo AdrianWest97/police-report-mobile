@@ -51,9 +51,9 @@ class _ReportMenuState extends State<ReportMenu> {
         onTap: () => Navigator.push(
             context, new MaterialPageRoute(builder: (context) => item.route)),
         child: Card(
+          elevation: 0.2,
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-          color: Colors.white,
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
           child: Padding(
             padding: const EdgeInsets.all(30.0),
             child: Column(
@@ -75,7 +75,7 @@ class _ReportMenuState extends State<ReportMenu> {
                     Text(
                       item.title,
                       style: TextStyle(
-                          color: Colors.black54,
+                          color: Colors.grey,
                           fontSize: 22.0,
                           fontWeight: FontWeight.bold),
                     ),

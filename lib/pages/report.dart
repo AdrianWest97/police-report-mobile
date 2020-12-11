@@ -13,7 +13,6 @@ class _ReportState extends State<Report> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Center(child: ReportMenu()),

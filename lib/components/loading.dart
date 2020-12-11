@@ -2,10 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Loader extends StatelessWidget {
-  const Loader({
-    Key key,
-  }) : super(key: key);
-
+  Loader({Key key, this.text}) : super(key: key);
+  var text;
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -18,7 +16,7 @@ class Loader extends StatelessWidget {
         ),
         SizedBox(height: 10),
         Text(
-          "Loading...",
+          text != null ? text.toString() : 'Loading...',
           style: TextStyle(color: Colors.grey),
         )
       ])),

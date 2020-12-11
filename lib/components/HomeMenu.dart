@@ -49,9 +49,9 @@ class _HomeMenuState extends State<HomeMenu> {
               context, new MaterialPageRoute(builder: (context) => e.route)),
           child: Card(
             margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            elevation: 0.2,
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
-            color: Colors.white,
+                borderRadius: BorderRadius.circular(15.0)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
