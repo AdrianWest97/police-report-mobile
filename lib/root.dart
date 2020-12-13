@@ -17,10 +17,14 @@ class AuthRoot extends StatefulWidget {
 
 class _AuthRootState extends State<AuthRoot> {
   AuthStatus _authStatus = AuthStatus.notLoggedIn;
+  bool loading = false;
 
   @override
   void didChangeDependencies() async {
     super.didChangeDependencies();
+    setState(() {
+      loading = true;
+    });
     CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
     String success = await _currentUser.fetchUser();
     if (success == 'success') {
@@ -28,6 +32,9 @@ class _AuthRootState extends State<AuthRoot> {
         _authStatus = AuthStatus.loggedIN;
       });
     }
+    setState(() {
+      loading = false;
+    });
   }
 
   @override
@@ -42,6 +49,16 @@ class _AuthRootState extends State<AuthRoot> {
         break;
       default:
     }
-    return retVal;
+    return ModalProgressHUD(
+      child: retVal,
+      inAsyncCall: loading,
+      opacity: 0.9,
+      color: Color(0xFF072e6f),
+      progressIndicator: SizedBox(
+        height: 15.0,
+        width: 15.0,
+        child: CircularProgressIndicator(strokeWidth: 3.0),
+      ),
+    );
   }
 }

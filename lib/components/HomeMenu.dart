@@ -18,15 +18,16 @@ class _HomeMenuState extends State<HomeMenu> {
   @override
   void initState() {
     _menu.add(MenuItem(
-        image: 'assets/svg/report.svg', route: Report(), title: 'Report'));
+        image: 'assets/svg/clock.svg', route: Report(), title: 'Report'));
     _menu.add(MenuItem(
         image: 'assets/svg/delivery.svg',
         route: TrackReport(),
         title: 'Track Report'));
+
     _menu.add(MenuItem(
         image: 'assets/svg/search.svg',
         route: MissingPeople(),
-        title: 'Missing People'));
+        title: 'Missing Persons'));
     _menu.add(MenuItem(
         image: 'assets/svg/location.svg',
         route: HomePage(),

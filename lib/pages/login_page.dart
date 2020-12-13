@@ -204,6 +204,52 @@ class _LoginPageState extends State<LoginPage> {
                           SizedBox(
                             height: 20,
                           ),
+                          //continue as guest
+                          Container(
+                            height: 50,
+                            width: double.infinity,
+                            child: FlatButton(
+                              onPressed: () {
+                                //return true if form is valid
+                                if (_formKey.currentState.validate()) {
+                                  _loginGuest();
+                                }
+                              },
+                              padding: EdgeInsets.all(0),
+                              child: Ink(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    color: Color(0xFFBA5E5F)),
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  constraints: BoxConstraints(
+                                      maxWidth: double.infinity, minHeight: 50),
+                                  child: !isAuthenticating
+                                      ? Text(
+                                          "Continue anonymously",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                          textAlign: TextAlign.center,
+                                        )
+                                      : Text(
+                                          "Please wait...",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                ),
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                            ),
+                          ),
+
+                          SizedBox(
+                            height: 20,
+                          ),
                         ],
                       ),
                     ),
@@ -239,6 +285,10 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
+//guest login
+
+  _loginGuest() async {}
 
   _login() async {
     loadingBloc.loading = true;

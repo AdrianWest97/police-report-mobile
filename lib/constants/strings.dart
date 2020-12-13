@@ -1,5 +1,5 @@
 const String keyToken = "";
-const String keyUser = "";
+
 const List parishes = [
   "Hanover",
   "St. Elizabeth",

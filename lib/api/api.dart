@@ -1,10 +1,11 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:prms/utils/SharedPrefs.dart';
 
 class Network {
   //base  url
-  final String url = 'http://10.0.2.2:8000/api';
+  final String url = DotEnv().env['APP_URL'];
 
 //set header and specify content type
   _setHeaders() => {
@@ -18,6 +19,12 @@ class Network {
     var fullUrl = url + apiUrl;
     return await http.post(fullUrl,
         body: jsonEncode(data), headers: _setHeaders());
+  }
+
+//delete request to api
+  deleteData(apiUrl) async {
+    var fullUrl = url + apiUrl;
+    return await http.delete(fullUrl, headers: _setHeaders());
   }
 
   getData(apiUrl) async {

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:prms/models/Report.dart';
 
+// ignore: must_be_immutable
 class ReportDetails extends StatefulWidget {
   ReportDetails({Key key, @required this.report}) : super(key: key);
   Report report;

@@ -36,7 +36,6 @@ class _CreateReportState extends State<CreateReport>
   var _detailsController = TextEditingController();
   var _tempPhone = TextEditingController();
   var _tempName = TextEditingController();
-  bool isAnonymous = false;
   List<Witness> _witnesses = new List<Witness>();
   String parish;
   bool hasWitness = false;
@@ -170,38 +169,19 @@ class _CreateReportState extends State<CreateReport>
   List<Step> _reportSteps() {
     List<Step> _steps = [
       Step(
-          title: Text(
-              'Do you want to make this report anonymous? Your user information wont be shown.'),
-          content: Container(
-            alignment: Alignment.topLeft,
-            child: Row(
-              children: [
-                Switch(
-                    value: isAnonymous,
-                    onChanged: (value) => setState(() {
-                          isAnonymous = value;
-                        })),
-                Text("Anonymous report?"),
-                IconButton(icon: Icon(Icons.help), onPressed: null)
-              ],
-            ),
-          ),
-          state: _checkState(0),
-          isActive: _currentStep >= 0),
-      Step(
           title: Text('Report type & Date'),
           content: _stepOne(),
-          state: _checkState(1),
+          state: _checkState(0),
           isActive: _currentStep >= 0),
       Step(
           title: Text('Location of Inccident'),
           content: _stepTwo(),
-          state: _checkState(2),
+          state: _checkState(1),
           isActive: _currentStep >= 0),
       Step(
           title: Text('Description of inccident'),
           content: _stepThree(),
-          state: _checkState(3),
+          state: _checkState(2),
           isActive: _currentStep >= 0),
     ];
     return _steps;
@@ -218,7 +198,6 @@ class _CreateReportState extends State<CreateReport>
             child: DropdownButtonFormField(
               hint: Text("Select Parish"),
               decoration: InputDecoration.collapsed(hintText: ''),
-              dropdownColor: Colors.white,
               icon: Icon(Icons.arrow_drop_down),
               iconSize: 36,
               isExpanded: true,
@@ -412,7 +391,6 @@ class _CreateReportState extends State<CreateReport>
             child: DropdownButtonFormField(
               hint: Text("Select report type"),
               decoration: InputDecoration.collapsed(hintText: ''),
-              dropdownColor: Colors.white,
               icon: Icon(Icons.arrow_drop_down),
               iconSize: 36,
               isExpanded: true,
@@ -494,13 +472,12 @@ class _CreateReportState extends State<CreateReport>
         city: _cityController.text,
         parish: parish,
         street: _streetController.text,
-        anonymous: isAnonymous,
         accepted_terms: true,
         witnesses: jsonEncode(_witnesses),
         details: _detailsController.text,
         hasWitness: hasWitness);
     try {
-      var res = await Network().postData(form.toJson(), '/create');
+      var res = await Network().postData(form.toJson(), '/report/create');
       print(res.body);
       _showSuccessDialog(context, json.decode(res.body)['reference_number']);
     } catch (e) {

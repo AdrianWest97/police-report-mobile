@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:prms/api/api.dart';
 import 'package:prms/components/loading.dart';
 import 'package:prms/models/MissingPeople.dart';
+import 'package:prms/pages/missing_person_details.dart';
 
 class MissingPeople extends StatefulWidget {
   @override
@@ -42,7 +43,13 @@ class _MissingPeopleState extends State<MissingPeople> {
                 itemBuilder: (BuildContext context, int index) {
                   var data = snapshot.data[index];
                   return GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (context) =>
+                                  MissingPersonDetails(report: data)));
+                    },
                     child: Card(
                       elevation: 0.2,
                       shape: RoundedRectangleBorder(
@@ -71,7 +78,7 @@ class _MissingPeopleState extends State<MissingPeople> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "${data.fname} ${data.lname}",
+                                    "${data.name}",
                                     style: TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold),
@@ -81,9 +88,11 @@ class _MissingPeopleState extends State<MissingPeople> {
                                   ),
                                   Container(
                                     width: width,
-                                    child: Text(DateFormat('dd MMMM yyyy')
-                                        .format(DateTime.parse(data.date))
-                                        .toString()),
+                                    child: Text("Last seen: " +
+                                        DateFormat('dd MMMM yyyy')
+                                            .format(DateTime.parse(
+                                                data.lastSeenDate))
+                                            .toString()),
                                   )
                                 ],
                               ))

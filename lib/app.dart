@@ -5,6 +5,8 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:prms/pages/Home.dart';
 import 'package:prms/pages/new_report.dart';
 import 'package:prms/pages/profile_page.dart';
+import 'package:prms/utils/SharedPrefs.dart';
+import 'package:prms/utils/currentUser.dart';
 import 'package:prms/utils/loading_bloc.dart';
 import 'package:provider/provider.dart';
 
@@ -19,6 +21,11 @@ class CustomNavigatorHomePage extends StatefulWidget {
 }
 
 class _CustomNavigatorHomePageState extends State<CustomNavigatorHomePage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   final List<Widget> _children = [
     HomePage(),
     CreateReport(),
@@ -42,11 +49,7 @@ class _CustomNavigatorHomePageState extends State<CustomNavigatorHomePage> {
           showSelectedLabels: false,
           showUnselectedLabels: false,
           iconSize: 30,
-          onTap: (index) {
-            navigatorKey.currentState.maybePop();
-            setState(() => _page = _children[index]);
-            _currentIndex = index;
-          },
+          onTap: navigationTapped,
           currentIndex: _currentIndex,
         ),
         body: CustomNavigator(
@@ -56,6 +59,12 @@ class _CustomNavigatorHomePageState extends State<CustomNavigatorHomePage> {
         ),
       ),
     );
+  }
+
+  void navigationTapped(index) {
+    navigatorKey.currentState.maybePop();
+    setState(() => _page = _children[index]);
+    _currentIndex = index;
   }
 
   final _items = [

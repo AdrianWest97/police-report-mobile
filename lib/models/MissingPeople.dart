@@ -1,12 +1,13 @@
 class Missing {
-  String fname;
-  String lname;
+  String name;
   String image;
   String age;
   String gender;
   String attributes;
   String details;
   String date;
+  String lastSeenDate;
+  String headline;
 
   //address
   String city;
@@ -14,8 +15,7 @@ class Missing {
   String street;
 
   Missing(
-      {this.fname,
-      this.lname,
+      {this.name,
       this.image,
       this.age,
       this.gender,
@@ -24,10 +24,11 @@ class Missing {
       this.city,
       this.street,
       this.date,
-      this.parish});
+      this.parish,
+      this.lastSeenDate,
+      this.headline});
   Map<String, dynamic> toJson() => {
-        'fname': fname,
-        'lname': lname,
+        'name': name,
         'image': image,
         'age': age,
         'gender': gender,
@@ -36,18 +37,21 @@ class Missing {
         'city': city,
         'street': street,
         'parish': parish,
-        'date': date
+        'date': date,
+        'lastSeenDate': lastSeenDate,
+        'headline': headline
       };
 
   factory Missing.fromJson(Map<String, dynamic> json) {
     return Missing(
-        fname: json['fname'],
-        lname: json['lname'],
+        name: json['name'],
         age: json['age'],
         gender: json['gender'],
         attributes: json['attributes'],
         image: json['image']['path'],
         date: json['created_at'],
+        lastSeenDate: json['last_seen_date'],
+        headline: json['headline'],
         details: json['last_seen_details']);
   }
 }

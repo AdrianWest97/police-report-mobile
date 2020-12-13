@@ -104,7 +104,7 @@ class _TrackReportState extends State<TrackReport> {
   }
 
   Future<List<Report>> _loadReports() async {
-    final response = await Network().getData('/all');
+    final response = await Network().getData('/report/all');
 
     if (response.statusCode == 200) {
       List<Report> reports = new List<Report>();

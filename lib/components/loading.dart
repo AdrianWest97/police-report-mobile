@@ -6,20 +6,23 @@ class Loader extends StatelessWidget {
   var text;
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        SizedBox(
-          height: 15.0,
-          width: 15.0,
-          child: CircularProgressIndicator(strokeWidth: 3.0),
-        ),
-        SizedBox(height: 10),
-        Text(
-          text != null ? text.toString() : 'Loading...',
-          style: TextStyle(color: Colors.grey),
-        )
-      ])),
+    return Scaffold(
+      body: Center(
+        child: Container(
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          SizedBox(
+            height: 15.0,
+            width: 15.0,
+            child: CircularProgressIndicator(strokeWidth: 3.0),
+          ),
+          SizedBox(height: 10),
+          Text(
+            text != null ? text.toString() : 'Loading...',
+            style: TextStyle(color: Colors.grey),
+          )
+        ])),
+      ),
     );
   }
 }

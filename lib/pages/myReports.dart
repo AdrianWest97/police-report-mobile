@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import 'package:prms/api/api.dart';
 import 'package:prms/components/loading.dart';
@@ -93,10 +94,10 @@ class _MyReportsState extends State<MyReports> {
                                   Row(
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
-                                      Icon(
-                                        Icons.delete_outline,
-                                        size: 25,
-                                      ),
+                                      IconButton(
+                                          icon: Icon(Icons.delete_outline),
+                                          onPressed: () => deleteReport(
+                                              data.id, snapshot.data)),
                                     ],
                                   )
                                 ],
@@ -115,6 +116,44 @@ class _MyReportsState extends State<MyReports> {
         )));
   }
 
+  deleteReport(int id, List<Report> data) async {
+    var alertDialog = AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      title: Text('Are you sure?'),
+      content: Text(
+          "Are you sure you want to delete this report? This action cannot be undone."),
+      actions: [
+        FlatButton(
+            onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+            child: Text("Cancel")),
+        FlatButton(
+            onPressed: () => ({
+                  deleteConfirmed(data, id),
+                  Navigator.of(context, rootNavigator: true).pop()
+                }),
+            child: Text("Submit"))
+      ],
+      elevation: 24.0,
+    );
+
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return alertDialog;
+        });
+  }
+
+  deleteConfirmed(List<Report> data, int id) async {
+    var res = await Network().deleteData("/report/delete/$id");
+    if (res.statusCode == 200) {
+      setState(() {
+        data.removeWhere((element) => element.id == id);
+      });
+    } else
+      throw Exception('Failed to load album');
+  }
+
   _getStatus(status) {
     switch (status) {
       case 0:
@@ -128,7 +167,7 @@ class _MyReportsState extends State<MyReports> {
   }
 
   Future<List<Report>> _loadReports() async {
-    final response = await Network().getData('/all');
+    final response = await Network().getData('/report/all');
 
     if (response.statusCode == 200) {
       List<Report> reports = new List<Report>();

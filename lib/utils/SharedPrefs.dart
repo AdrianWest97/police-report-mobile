@@ -11,15 +11,10 @@ class SharedPrefs {
     }
   }
 
-  String get token => _sharedPrefs.getString(keyToken) ?? "";
-  String get user => _sharedPrefs.get(keyUser) ?? "";
+  String get token => _sharedPrefs.getString(keyToken);
 
   set token(String value) {
     _sharedPrefs.setString(keyToken, value);
-  }
-
-  set user(String value) {
-    _sharedPrefs.setString(keyUser, value);
   }
 }
 
