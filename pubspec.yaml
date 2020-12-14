@@ -38,6 +38,8 @@ dependencies:
   flutter_dotenv: ^2.1.0
   provider:
   adaptive_theme: ^1.1.0
+  url_launcher: ^5.7.6
+
 
 
 

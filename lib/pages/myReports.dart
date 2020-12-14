@@ -83,7 +83,7 @@ class _MyReportsState extends State<MyReports> {
                                     onSelected: (bool newValue) => ({}),
                                     backgroundColor:
                                         Color(_getStatus(data.status)['color']),
-                                  )
+                                  ),
                                 ],
                               ),
                               trailing: Wrap(

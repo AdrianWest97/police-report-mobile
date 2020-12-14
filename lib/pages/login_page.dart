@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:prms/components/loading.dart';
 import 'package:prms/root.dart';
@@ -9,6 +10,7 @@ import 'package:prms/utils/SharedPrefs.dart';
 import 'package:prms/api/api.dart';
 import 'package:prms/utils/loading_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -211,9 +213,7 @@ class _LoginPageState extends State<LoginPage> {
                             child: FlatButton(
                               onPressed: () {
                                 //return true if form is valid
-                                if (_formKey.currentState.validate()) {
-                                  _loginGuest();
-                                }
+                                _loginGuest();
                               },
                               padding: EdgeInsets.all(0),
                               child: Ink(
@@ -288,7 +288,15 @@ class _LoginPageState extends State<LoginPage> {
 
 //guest login
 
-  _loginGuest() async {}
+  _loginGuest() async {
+    //login user as guest implementation
+    var url = DotEnv().env['WEB_APP_URL'];
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 
   _login() async {
     loadingBloc.loading = true;
