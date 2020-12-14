@@ -1,15 +1,17 @@
 import 'package:prms/models/Witness.dart';
 
 class ReportForm {
-  DateTime date;
+  String date;
   String type;
   String parish;
   String city;
   String street;
   String details;
+  String additional;
   bool hasWitness;
-  List<Witness> witnesses;
+  String witnesses;
   bool accepted_terms;
+  bool anonymous;
 
   ReportForm(
       {this.date,
@@ -18,8 +20,10 @@ class ReportForm {
       this.city,
       this.street,
       this.details,
+      this.additional,
       this.hasWitness,
       this.witnesses,
+      this.anonymous,
       this.accepted_terms});
 
   Map<String, dynamic> toJson() => {
@@ -29,8 +33,10 @@ class ReportForm {
         'city': city,
         'street': street,
         'details': details,
+        'additional': additional,
         'witnesses': witnesses,
         'hasWitness': hasWitness,
-        'accepted_terms': accepted_terms
+        'accepted_terms': accepted_terms,
+        'anonymous': anonymous
       };
 }

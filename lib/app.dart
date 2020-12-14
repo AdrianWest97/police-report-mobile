@@ -1,11 +1,16 @@
 import 'package:custom_navigator/custom_navigator.dart';
-import 'package:custom_navigator/custom_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:prms/pages/Home.dart';
 import 'package:prms/pages/new_report.dart';
 import 'package:prms/pages/profile_page.dart';
-import 'package:prms/pages/report.dart';
+import 'package:prms/utils/SharedPrefs.dart';
+import 'package:prms/utils/currentUser.dart';
+import 'package:prms/utils/loading_bloc.dart';
+import 'package:provider/provider.dart';
+
+import 'components/loading.dart';
 
 class CustomNavigatorHomePage extends StatefulWidget {
   CustomNavigatorHomePage({Key key, this.label}) : super(key: key);
@@ -16,6 +21,11 @@ class CustomNavigatorHomePage extends StatefulWidget {
 }
 
 class _CustomNavigatorHomePageState extends State<CustomNavigatorHomePage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   final List<Widget> _children = [
     HomePage(),
     CreateReport(),
@@ -27,31 +37,39 @@ class _CustomNavigatorHomePageState extends State<CustomNavigatorHomePage> {
   GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        items: _items,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        selectedItemColor: Colors.black,
-        iconSize: 35,
-        onTap: (index) {
-          navigatorKey.currentState.maybePop();
-          setState(() => _page = _children[index]);
-          _currentIndex = index;
-        },
-        currentIndex: _currentIndex,
-      ),
-      body: CustomNavigator(
-        navigatorKey: navigatorKey,
-        home: _page,
-        pageRoute: PageRoutes.materialPageRoute,
+    final LoadingBloc loader = Provider.of<LoadingBloc>(context);
+    return ModalProgressHUD(
+      inAsyncCall: loader.hudLoader,
+      opacity: 0.9,
+      color: Color(0xFF072e6f),
+      progressIndicator: Loader(),
+      child: Scaffold(
+        bottomNavigationBar: BottomNavigationBar(
+          items: _items,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          iconSize: 30,
+          onTap: navigationTapped,
+          currentIndex: _currentIndex,
+        ),
+        body: CustomNavigator(
+          navigatorKey: navigatorKey,
+          home: _page,
+          pageRoute: PageRoutes.materialPageRoute,
+        ),
       ),
     );
   }
 
+  void navigationTapped(index) {
+    navigatorKey.currentState.maybePop();
+    setState(() => _page = _children[index]);
+    _currentIndex = index;
+  }
+
   final _items = [
     BottomNavigationBarItem(
-      icon: new Icon(Icons.home_outlined),
+      icon: new Icon(Icons.home_filled),
       label: 'Home',
     ),
     BottomNavigationBarItem(

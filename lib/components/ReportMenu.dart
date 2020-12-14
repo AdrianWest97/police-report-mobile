@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:prms/models/MenuItem.dart';
-import 'package:prms/pages/Home.dart';
 import 'package:prms/pages/myReports.dart';
 import 'package:prms/pages/new_report.dart';
 import 'package:prms/pages/trackReport.dart';
@@ -22,14 +21,14 @@ class _ReportMenuState extends State<ReportMenu> {
         route: CreateReport(),
         title: 'Create Report',
         text: 'Make a report on a crime, vehicle accident or covid-19 breach'));
-    _menu.add(MenuItem(
-        image: 'assets/svg/delivery.svg',
-        route: TrackReport(),
-        title: 'Track Report',
-        text: 'Track your report status '));
+    // _menu.add(MenuItem(
+    //     image: 'assets/svg/delivery.svg',
+    //     route: TrackReport(),
+    //     title: 'Track Report',
+    //     text: 'Track your report status '));
     _menu.add(
       MenuItem(
-          image: 'assets/svg/report.svg',
+          image: 'assets/svg/document.svg',
           route: MyReports(),
           title: 'My Reports',
           text: 'See your recent reports'),
@@ -52,10 +51,9 @@ class _ReportMenuState extends State<ReportMenu> {
         onTap: () => Navigator.push(
             context, new MaterialPageRoute(builder: (context) => item.route)),
         child: Card(
-          elevation: 0,
+          elevation: 0.2,
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-          color: Colors.white,
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
           child: Padding(
             padding: const EdgeInsets.all(30.0),
             child: Column(
@@ -77,7 +75,7 @@ class _ReportMenuState extends State<ReportMenu> {
                     Text(
                       item.title,
                       style: TextStyle(
-                          color: Colors.black54,
+                          color: Colors.grey,
                           fontSize: 22.0,
                           fontWeight: FontWeight.bold),
                     ),

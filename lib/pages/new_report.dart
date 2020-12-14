@@ -3,9 +3,15 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:prms/api/api.dart';
+import 'package:prms/constants/strings.dart';
 import 'package:prms/models/Witness.dart';
 import 'package:prms/models/report_form.dart';
-import 'package:prms/pages/report.dart';
+import 'package:prms/pages/Home.dart';
+import 'package:prms/utils/loading_bloc.dart';
+import 'package:provider/provider.dart';
+
+import '../root.dart';
 
 class CreateReport extends StatefulWidget {
   @override
@@ -33,23 +39,9 @@ class _CreateReportState extends State<CreateReport>
   List<Witness> _witnesses = new List<Witness>();
   String parish;
   bool hasWitness = false;
-  List _parishes = [
-    "Hanover",
-    "St. Elizabeth",
-    "St. James",
-    "Trelawny",
-    "Westmoreland",
-    "Clarendon",
-    "Manchester",
-    "St. Ann",
-    "St. Catherine",
-    "St. Mary",
-    "Kingston",
-    "Portland",
-    "St. Andrew",
-    "St. Thomas"
-  ];
+
   GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+  LoadingBloc loadingBloc;
   @override
   void initState() {
     super.initState();
@@ -57,10 +49,25 @@ class _CreateReportState extends State<CreateReport>
 
   @override
   Widget build(BuildContext context) {
+    loadingBloc = Provider.of<LoadingBloc>(context);
     super.build(context);
     return Scaffold(
         appBar: AppBar(
-          title: Text('New Report'),
+          centerTitle: true,
+          actions: [
+            IconButton(
+                icon: Icon(
+                  Icons.close,
+                  color: Colors.white,
+                ),
+                onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomePage()),
+                    ))
+          ],
+          title: Text(
+            'Quick Report',
+          ),
         ),
         body: Form(
           key: _formKey,
@@ -139,16 +146,20 @@ class _CreateReportState extends State<CreateReport>
 
   void confirmSubmit(BuildContext context) {
     var alertDialog = AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       title: Text('Submit Report?'),
       content: Text(
           "By clicking submit, you certify that all the given information is true and correct."),
       actions: [
-        FlatButton(onPressed: null, child: Text("Cancel")),
+        FlatButton(
+            onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+            child: Text("Cancel")),
         FlatButton(onPressed: () => submitForm(), child: Text("Submit"))
       ],
       elevation: 24.0,
     );
     showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {
           return alertDialog;
@@ -182,12 +193,11 @@ class _CreateReportState extends State<CreateReport>
         Container(
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey, width: 1),
+                border: Border.all(color: Colors.grey.shade300, width: 2),
                 borderRadius: BorderRadius.circular(15)),
             child: DropdownButtonFormField(
               hint: Text("Select Parish"),
               decoration: InputDecoration.collapsed(hintText: ''),
-              dropdownColor: Colors.white,
               icon: Icon(Icons.arrow_drop_down),
               iconSize: 36,
               isExpanded: true,
@@ -199,7 +209,7 @@ class _CreateReportState extends State<CreateReport>
               },
               validator: (value) =>
                   value == null ? 'Please select an item' : null,
-              items: _parishes.map((item) {
+              items: parishes.map((item) {
                 return DropdownMenuItem(
                   value: item,
                   child: Text(item),
@@ -220,9 +230,14 @@ class _CreateReportState extends State<CreateReport>
           controller: _cityController,
           decoration: InputDecoration(
             labelText: "City",
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: Colors.grey.shade300)),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: Colors.grey.shade400)),
           ),
         ),
         SizedBox(
@@ -239,9 +254,14 @@ class _CreateReportState extends State<CreateReport>
           controller: _streetController,
           decoration: InputDecoration(
             labelText: "Street Address",
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: Colors.grey.shade300)),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: Colors.grey.shade400)),
           ),
         )
       ],
@@ -263,9 +283,14 @@ class _CreateReportState extends State<CreateReport>
           decoration: InputDecoration(
             labelText: "Details",
             hintText: "Give brief information of the inccident",
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: Colors.grey.shade300)),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: Colors.grey.shade400)),
           ),
           maxLines: null,
           keyboardType: TextInputType.text,
@@ -287,7 +312,7 @@ class _CreateReportState extends State<CreateReport>
                   });
                 },
               ),
-              title: Text('Where there any witness?'),
+              title: Text('Were there any witnesses?'),
             )),
         hasWitness
             ? Column(
@@ -308,8 +333,13 @@ class _CreateReportState extends State<CreateReport>
                     decoration: InputDecoration(
                       labelText: 'Witness full name',
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
+                          borderRadius: BorderRadius.circular(20.0)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.grey.shade300)),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.grey.shade400)),
                     ),
                   ),
                   SizedBox(
@@ -321,8 +351,13 @@ class _CreateReportState extends State<CreateReport>
                     decoration: InputDecoration(
                       labelText: 'Phone #',
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
+                          borderRadius: BorderRadius.circular(20.0)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.grey.shade300)),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.grey.shade400)),
                     ),
                   ),
                   SizedBox(
@@ -351,12 +386,11 @@ class _CreateReportState extends State<CreateReport>
         Container(
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey, width: 1),
+                border: Border.all(color: Colors.grey.shade400, width: 1),
                 borderRadius: BorderRadius.circular(15)),
             child: DropdownButtonFormField(
               hint: Text("Select report type"),
               decoration: InputDecoration.collapsed(hintText: ''),
-              dropdownColor: Colors.white,
               icon: Icon(Icons.arrow_drop_down),
               iconSize: 36,
               isExpanded: true,
@@ -388,9 +422,14 @@ class _CreateReportState extends State<CreateReport>
           },
           decoration: InputDecoration(
             labelText: 'Select Date',
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: Colors.grey.shade300)),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: Colors.grey.shade400)),
           ),
           readOnly: true,
           showCursor: false,
@@ -424,68 +463,69 @@ class _CreateReportState extends State<CreateReport>
   @override
   bool get wantKeepAlive => true;
 
-  submitForm() {
+  submitForm() async {
+    Navigator.of(context, rootNavigator: true).pop();
+    loadingBloc.loading = true;
     ReportForm form = new ReportForm(
         type: reportType,
-        // date: tempDate,
+        date: _dateController.text,
         city: _cityController.text,
         parish: parish,
         street: _streetController.text,
         accepted_terms: true,
-        witnesses: _witnesses,
+        witnesses: jsonEncode(_witnesses),
         details: _detailsController.text,
         hasWitness: hasWitness);
-
-    // print(jsonEncode(form.toJson()));
+    try {
+      var res = await Network().postData(form.toJson(), '/report/create');
+      print(res.body);
+      _showSuccessDialog(context, json.decode(res.body)['reference_number']);
+    } catch (e) {
+      print(e);
+    }
+    loadingBloc.loading = false;
   }
-}
 
-class _customDropDown extends StatefulWidget {
-  _customDropDown({
-    Key key,
-    @required this.value,
-    @required this.hint,
-    @required List items,
-  })  : _items = items,
-        super(key: key);
-
-  String value;
-  String hint;
-  List _items;
-
-  @override
-  __customDropDownState createState() => __customDropDownState();
-}
-
-class __customDropDownState extends State<_customDropDown> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey, width: 1),
-          borderRadius: BorderRadius.circular(15)),
-      child: DropdownButtonFormField(
-        hint: Text(widget.hint),
-        decoration: InputDecoration.collapsed(hintText: ''),
-        dropdownColor: Colors.white,
-        icon: Icon(Icons.arrow_drop_down),
-        iconSize: 36,
-        isExpanded: true,
-        value: widget.value,
-        onChanged: (newValue) async {
-          setState(() {
-            widget.value = newValue;
-          });
-        },
-        validator: (value) => value == null ? 'Please select an item' : null,
-        items: widget._items.map((item) {
-          return DropdownMenuItem(
-            value: item,
-            child: Text(item),
-          );
-        }).toList(),
+  void _showSuccessDialog(BuildContext context, body) {
+    var alertDialog = AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      title: Text("Success"),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            "Your report has been submmited for review and approval. Save this reference number to track your report.",
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            "REF#",
+            style: TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            body.toString().toUpperCase(),
+            style: TextStyle(fontSize: 45, fontWeight: FontWeight.bold),
+          )
+        ],
       ),
+      actions: [
+        FlatButton(
+            onPressed: () => {
+                  Navigator.of(context, rootNavigator: true)
+                      .popAndPushNamed('/'),
+                },
+            child: Text("OK")),
+      ],
     );
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return WillPopScope(onWillPop: () async => false, child: alertDialog);
+        });
   }
 }

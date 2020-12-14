@@ -11,22 +11,23 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
-      appBar: AppBar(
-        title: Text('Home'),
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(10),
+          // child: Text(
+          //   "Welcome",
+          //   style: headingStyle,
+          // ),
+          child: HomeMenu(),
+        ),
       ),
-      body: Container(
-          child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: 30,
-          ),
-          HomeMenu(),
-        ],
-      )),
     );
   }
 
